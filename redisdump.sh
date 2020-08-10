@@ -35,6 +35,15 @@ then
 	exit 1
 fi
 
+if ! which redis-cli >/dev/null
+then
+	echo ""
+	echo "Error. Redis-cli not installed! Install with apt-get install redis-tools"
+	echo ""
+	echo ""
+	exit 1
+fi
+
 projectprefix=`date +Results_%d%b%Y_%Hh%Mm%Ss`
 mkdir $projectprefix
 
@@ -52,3 +61,6 @@ redis-cli -h $i --scan > $projectprefix/$i.keys
 	redis-cli -h $i hgetall $a > $projectprefix/$i.hgetout
 	done
 done
+
+echo ""
+echo "Script complete. Check the $projectprefix directory for output files!"
