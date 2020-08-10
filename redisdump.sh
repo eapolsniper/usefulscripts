@@ -35,18 +35,20 @@ then
 	exit 1
 fi
 
+projectprefix=`date +Results_%d%b%Y_%Hh%Mm%Ss`
+mkdir $projectprefix
 
 for i in `cat $infile`
 
 do
 
-redis-cli -h $i --scan > $i.keys
+redis-cli -h $i --scan > $projectprefix/$i.keys
 
-	for a in `cat $i.keys`
+	for a in `cat $projectprefix/$i.keys`
 
 	do
-
-	redis-cli -h $i get $a >> $i.getout
-	redis-cli -h $i hgetall $a >> $i.hgetout
+	redis-cli -h $i info > $projectprefix/$i.info
+	redis-cli -h $i get $a > $projectprefix/$i.getout
+	redis-cli -h $i hgetall $a > $projectprefix/$i.hgetout
 	done
 done
