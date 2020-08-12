@@ -56,9 +56,10 @@ redis-cli -h $i --scan > $projectprefix/$i.keys
 	for a in `cat $projectprefix/$i.keys`
 
 	do
-	redis-cli -h $i info > $projectprefix/$i.info
-	redis-cli -h $i get $a > $projectprefix/$i.getout
-	redis-cli -h $i hgetall $a > $projectprefix/$i.hgetout
+	redis-cli -h $i info >> $projectprefix/$i.info
+	redis-cli -h $i get $a >> $projectprefix/$i.getout
+	redis-cli -h $i hgetall $a >> $projectprefix/$i.hgetout
+	redis-cli -h $i lrange $a 1 100 >> $projectprefix/$i.lrange
 	done
 done
 
